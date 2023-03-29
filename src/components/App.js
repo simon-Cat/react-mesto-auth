@@ -9,6 +9,9 @@ import CurrentUserContext from "../contexts/CurrentUserContext";
 import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
 import AddPlacePopup from "./AddPlacePopup";
+import Login from './Login';
+import Register from './Register';
+import { Routes, Route } from "react-router-dom";
 
 const App = () => {
   // states
@@ -18,6 +21,7 @@ const App = () => {
   const [selectedCard, setSelectedCard] = useState(null);
   const [currentUser, setCurrentUser] = useState({});
   const [cards, setCards] = useState([]);
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
 
   // effect
   useEffect(() => {
@@ -139,15 +143,20 @@ const App = () => {
     <div className="page">
       <CurrentUserContext.Provider value={currentUser}>
         <Header />
-        <Main
-          cards={cards}
-          onEditProfile={handleEditProfileClick}
-          onAddPlace={handleAddPlaceClick}
-          onEditAvatar={handleEditAvatarClick}
-          onCardClick={handleCardFullImage}
-          onCardLike={handleCardLike}
-          onCardDelete={handleCardDelete}
-        />
+        <Routes>
+          <Route path="/" element={isLoggedIn ? <Main
+            cards={cards}
+            onEditProfile={handleEditProfileClick}
+            onAddPlace={handleAddPlaceClick}
+            onEditAvatar={handleEditAvatarClick}
+            onCardClick={handleCardFullImage}
+            onCardLike={handleCardLike}
+            onCardDelete={handleCardDelete}
+            /> : <Login />} 
+          />
+          <Route path="/sing-up" element={<Register />} />
+          <Route path="/sing-in" element={<Login />} />
+        </Routes>
         <Footer />
         <EditAvatarPopup
           isOpen={isEditAvatarPopupOpen}
