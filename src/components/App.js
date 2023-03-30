@@ -9,8 +9,9 @@ import CurrentUserContext from "../contexts/CurrentUserContext";
 import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
 import AddPlacePopup from "./AddPlacePopup";
-import Login from './Login';
-import Register from './Register';
+import Login from "./Login";
+import Register from "./Register";
+import ProtectedRoute from "./ProtectedRoute";
 import { Routes, Route, Navigate } from "react-router-dom";
 
 const App = () => {
@@ -144,16 +145,31 @@ const App = () => {
       <CurrentUserContext.Provider value={currentUser}>
         <Header />
         <Routes>
-          <Route path="*" element={isLoggedIn ? <Navigate to="/" replace /> : <Navigate to="/sing-in" replace />} />
-          <Route path="/" element={isLoggedIn ? <Main
-            cards={cards}
-            onEditProfile={handleEditProfileClick}
-            onAddPlace={handleAddPlaceClick}
-            onEditAvatar={handleEditAvatarClick}
-            onCardClick={handleCardFullImage}
-            onCardLike={handleCardLike}
-            onCardDelete={handleCardDelete}
-            /> : <Navigate to="/sing-in" replace />}
+          <Route
+            path="*"
+            element={
+              isLoggedIn ? (
+                <Navigate to="/" replace />
+              ) : (
+                <Navigate to="/sing-in" replace />
+              )
+            }
+          />
+          <Route
+            path="/"
+            element={
+              <ProtectedRoute
+                element={Main}
+                cards={cards}
+                onEditProfile={handleEditProfileClick}
+                onAddPlace={handleAddPlaceClick}
+                onEditAvatar={handleEditAvatarClick}
+                onCardClick={handleCardFullImage}
+                onCardLike={handleCardLike}
+                onCardDelete={handleCardDelete}
+                isLoggedIn={isLoggedIn}
+              />
+            }
           />
           <Route path="/sing-up" element={<Register />} />
           <Route path="/sing-in" element={<Login />} />
