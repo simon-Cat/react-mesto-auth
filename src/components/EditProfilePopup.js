@@ -34,6 +34,7 @@ const EditProfilePopup = ({ isOpen, onClose, onUpdateUser }) => {
       <PopupWithForm
         title="Редактировать профиль"
         name="edit"
+        sumbitText={'Сохранить'}
         isOpen={isOpen}
         onClose={onClose}
         onSubmit={handleSubmit}

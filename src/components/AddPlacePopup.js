@@ -31,6 +31,7 @@ const AddPlacePopup = ({ isOpen, onClose, onAddPlace }) => {
       <PopupWithForm
         title="Новое место"
         name="add"
+        sumbitText={'Сохранить'}
         isOpen={isOpen}
         onClose={onClose}
         onSubmit={handleSubmit}

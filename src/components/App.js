@@ -11,7 +11,7 @@ import EditAvatarPopup from "./EditAvatarPopup";
 import AddPlacePopup from "./AddPlacePopup";
 import Login from './Login';
 import Register from './Register';
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 
 const App = () => {
   // states
@@ -144,6 +144,7 @@ const App = () => {
       <CurrentUserContext.Provider value={currentUser}>
         <Header />
         <Routes>
+          <Route path="*" element={isLoggedIn ? <Navigate to="/" replace /> : <Navigate to="/sing-in" replace />} />
           <Route path="/" element={isLoggedIn ? <Main
             cards={cards}
             onEditProfile={handleEditProfileClick}
@@ -152,7 +153,7 @@ const App = () => {
             onCardClick={handleCardFullImage}
             onCardLike={handleCardLike}
             onCardDelete={handleCardDelete}
-            /> : <Login />} 
+            /> : <Navigate to="/sing-in" replace />}
           />
           <Route path="/sing-up" element={<Register />} />
           <Route path="/sing-in" element={<Login />} />

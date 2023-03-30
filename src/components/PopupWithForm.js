@@ -1,6 +1,9 @@
+import Form from "./Form";
+
 const PopupWithForm = ({
   title,
   name,
+  sumbitText,
   isOpen,
   onClose,
   onSubmit,
@@ -9,25 +12,20 @@ const PopupWithForm = ({
   return (
     <div className={`popup popup_type_${name} ${isOpen ? "popup_opened" : ""}`}>
       <div className="popup__container">
-        <form
-          onSubmit={onSubmit}
-          action="#"
+        <Form
+          title={title}
           name={name}
-          className="form_userAvatar popup__form form"
+          sumbitText={sumbitText}
+          className={"form_userAvatar popup__form"}
+          onSubmit={onSubmit}
         >
-          <h2 className="form__title">{title}</h2>
           {children}
-          <button type="submit" className="button button_type_submit">
-            <span className="button__text">
-              {name === "confirm" ? "Да" : "Сохранить"}
-            </span>
-          </button>
           <button
             type="button"
             className="button button_type_close"
             onClick={onClose}
           ></button>
-        </form>
+        </Form>
       </div>
     </div>
   );

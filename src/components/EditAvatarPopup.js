@@ -27,6 +27,7 @@ export default class EditAvatarPopup extends React.Component {
         <PopupWithForm
           title="Обновить аватар"
           name="avatar"
+          sumbitText={'Сохранить'}
           isOpen={this.props.isOpen}
           onClose={this.props.onClose}
           onSubmit={this.handleSubmit}
