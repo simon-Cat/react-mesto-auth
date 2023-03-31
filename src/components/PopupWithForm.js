@@ -1,3 +1,4 @@
+import Popup from "./Popup";
 import Form from "./Form";
 
 const PopupWithForm = ({
@@ -10,24 +11,22 @@ const PopupWithForm = ({
   children,
 }) => {
   return (
-    <div className={`popup popup_type_${name} ${isOpen ? "popup_opened" : ""}`}>
-      <div className="popup__container">
-        <Form
-          title={title}
-          name={name}
-          sumbitText={sumbitText}
-          className={"form_userAvatar popup__form"}
-          onSubmit={onSubmit}
-        >
-          {children}
-          <button
-            type="button"
-            className="button button_type_close"
-            onClick={onClose}
-          ></button>
-        </Form>
-      </div>
-    </div>
+    <Popup name={name} isOpen={isOpen}>
+      <Form
+        title={title}
+        name={name}
+        sumbitText={sumbitText}
+        className={"form_userAvatar popup__form"}
+        onSubmit={onSubmit}
+      >
+        {children}
+        <button
+          type="button"
+          className="button button_type_close"
+          onClick={onClose}
+        ></button>
+      </Form>
+    </Popup>
   );
 };
 

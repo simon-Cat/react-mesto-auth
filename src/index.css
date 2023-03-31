@@ -99,3 +99,9 @@
 @import url(./styles/blocks/register/__text/register__text.css);
 @import url(./styles/blocks/register/__is-auth/register__is-auth.css);
 @import url(./styles/blocks/register/__link/register__link.css);
+
+@import url(./styles/blocks/infoTooltip/infoTooltip.css);
+@import url(./styles/blocks/infoTooltip/__icon/infoTooltip__icon.css);
+@import url(./styles/blocks/infoTooltip/__icon/_type/infoTooltip__icon_type_success.css);
+@import url(./styles/blocks/infoTooltip/__icon/_type/infoTooltip__icon_type_fail.css);
+@import url(./styles/blocks/infoTooltip/__text/infoTooltip__text.css);

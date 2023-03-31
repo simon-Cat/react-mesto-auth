@@ -12,6 +12,7 @@ import AddPlacePopup from "./AddPlacePopup";
 import Login from "./Login";
 import Register from "./Register";
 import ProtectedRoute from "./ProtectedRoute";
+import InfoTooltip from "./InfoTooltip";
 import { Routes, Route, Navigate } from "react-router-dom";
 
 const App = () => {
@@ -19,11 +20,12 @@ const App = () => {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
+  const [isInfoTooltipPopupOpen, setIsInfoTooltipPopupOpen] = useState(true);
   const [selectedCard, setSelectedCard] = useState(null);
   const [currentUser, setCurrentUser] = useState({});
   const [cards, setCards] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(true);
-
+  
   // effect
   useEffect(() => {
     Promise.all([api.getUserInfo(), api.getInitialCards()])
@@ -138,6 +140,7 @@ const App = () => {
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
     setSelectedCard(null);
+    setIsInfoTooltipPopupOpen(false)
   };
 
   return (
@@ -175,6 +178,7 @@ const App = () => {
           <Route path="/sing-in" element={<Login />} />
         </Routes>
         <Footer />
+        <InfoTooltip onClose={closeAllPopups} isOpen={isInfoTooltipPopupOpen} />
         <EditAvatarPopup
           isOpen={isEditAvatarPopupOpen}
           onClose={closeAllPopups}
