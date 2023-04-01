@@ -5,6 +5,7 @@ import Footer from "./Footer";
 import PopupWithForm from "./PopupWithForm";
 import ImagePopup from "./ImagePopup";
 import api from "../utils/Api";
+import * as auth from "../utils/Auth";
 import CurrentUserContext from "../contexts/CurrentUserContext";
 import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
@@ -13,21 +14,45 @@ import Login from "./Login";
 import Register from "./Register";
 import ProtectedRoute from "./ProtectedRoute";
 import InfoTooltip from "./InfoTooltip";
-import { Routes, Route, Navigate, useLocation } from "react-router-dom";
+import {
+  Routes,
+  Route,
+  Navigate,
+  useLocation,
+} from "react-router-dom";
 
 const App = () => {
   // states
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
-  const [isInfoTooltipPopupOpen, setIsInfoTooltipPopupOpen] = useState(true);
+  const [isInfoTooltipPopupOpen, setIsInfoTooltipPopupOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState(null);
   const [currentUser, setCurrentUser] = useState({});
   const [cards, setCards] = useState([]);
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userEmail, setUserEmail] = useState(null);
+  const [statusRegistration, setStatusRegistration] = useState(null);
 
   const location = useLocation();
-  
+
+  const onLogin = (email, token) => {
+    localStorage.setItem("token", token);
+    setIsLoggedIn(true);
+    setUserEmail(email);
+  };
+
+  const onSignOut = () => {
+    setIsLoggedIn(false);
+    localStorage.removeItem('token');
+  }
+
+  const onRegister = (res) => {
+    const typeOfToolTipPopup = res.error ? true : false;
+    setStatusRegistration(typeOfToolTipPopup);
+    setIsInfoTooltipPopupOpen(true);
+  }
+
   // effect
   useEffect(() => {
     Promise.all([api.getUserInfo(), api.getInitialCards()])
@@ -40,6 +65,16 @@ const App = () => {
       .catch((error) => {
         console.log(`Ошибка - ${error}`);
       });
+  }, []);
+
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      const jwt = localStorage.getItem("token");
+      auth.getContent(jwt).then((res) => {
+        setUserEmail(res.data.email);
+        setIsLoggedIn(true);
+      });
+    }
   }, []);
 
   // обработчик клика изменения аватара
@@ -142,23 +177,22 @@ const App = () => {
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
     setSelectedCard(null);
-    setIsInfoTooltipPopupOpen(false)
+    setIsInfoTooltipPopupOpen(false);
   };
 
   return (
     <div className="page">
       <CurrentUserContext.Provider value={currentUser}>
-        <Header isLoggedIn={isLoggedIn} location={location.pathname} />
+        <Header
+          isLoggedIn={isLoggedIn}
+          location={location.pathname}
+          email={userEmail}
+          onSignOut={onSignOut}
+        />
         <Routes>
           <Route
             path="*"
-            element={
-              isLoggedIn ? (
-                <Navigate to="/" replace />
-              ) : (
-                <Navigate to="/sing-in" replace />
-              )
-            }
+            element={<Navigate to="/" replace />}
           />
           <Route
             path="/"
@@ -176,11 +210,14 @@ const App = () => {
               />
             }
           />
-          <Route path="/sing-up" element={<Register />} />
-          <Route path="/sing-in" element={<Login />} />
+          <Route path="/sign-up" element={<Register onRegister={onRegister} />} />
+          <Route
+            path="/sign-in"
+            element={!isLoggedIn ? <Login onLogin={onLogin} /> : <Navigate to="/" replace={true} />}
+          />
         </Routes>
         <Footer />
-        <InfoTooltip onClose={closeAllPopups} isOpen={isInfoTooltipPopupOpen} />
+        <InfoTooltip onClose={closeAllPopups} isOpen={isInfoTooltipPopupOpen} popupType={statusRegistration} />
         <EditAvatarPopup
           isOpen={isEditAvatarPopupOpen}
           onClose={closeAllPopups}

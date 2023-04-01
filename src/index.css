@@ -58,6 +58,7 @@
 @import url(./styles/blocks/place/__like-count/place__like-count.css);
 
 /* footer */
+@import url(./styles/blocks/footer/footer.css);
 @import url(./styles/blocks/footer/__text/footer__text.css);
 
 /* confirm */
