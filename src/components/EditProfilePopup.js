@@ -30,43 +30,41 @@ const EditProfilePopup = ({ isOpen, onClose, onUpdateUser }) => {
   };
 
   return (
-    <>
-      <PopupWithForm
-        title="Редактировать профиль"
-        name="edit"
-        sumbitText={'Сохранить'}
-        isOpen={isOpen}
-        onClose={onClose}
-        onSubmit={handleSubmit}
-      >
-        <input
-          required
-          minLength="2"
-          maxLength="40"
-          type="text"
-          name="userName"
-          className="form__input form__input_type_name"
-          id="name-input"
-          placeholder="Имя"
-          value={name}
-          onChange={handleChangeName}
-        />
-        <span className="form__input-error name-input-error"></span>
-        <input
-          required
-          minLength="2"
-          maxLength="200"
-          type="text"
-          name="userPost"
-          className="form__input form__input_type_post"
-          id="post-input"
-          placeholder="О себе"
-          value={description}
-          onChange={handleChangeDescription}
-        />
-        <span className="form__input-error post-input-error"></span>
-      </PopupWithForm>
-    </>
+    <PopupWithForm
+      title="Редактировать профиль"
+      name="edit"
+      sumbitText={"Сохранить"}
+      isOpen={isOpen}
+      onClose={onClose}
+      onSubmit={handleSubmit}
+    >
+      <input
+        required
+        minLength="2"
+        maxLength="40"
+        type="text"
+        name="userName"
+        className="form__input form__input_type_name"
+        id="name-input"
+        placeholder="Имя"
+        value={name}
+        onChange={handleChangeName}
+      />
+      <span className="form__input-error name-input-error"></span>
+      <input
+        required
+        minLength="2"
+        maxLength="200"
+        type="text"
+        name="userPost"
+        className="form__input form__input_type_post"
+        id="post-input"
+        placeholder="О себе"
+        value={description}
+        onChange={handleChangeDescription}
+      />
+      <span className="form__input-error post-input-error"></span>
+    </PopupWithForm>
   );
 };
 

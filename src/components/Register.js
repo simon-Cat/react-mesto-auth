@@ -1,9 +1,9 @@
 import { useState } from "react";
 import Form from "./Form";
 import { Link } from "react-router-dom";
-import * as auth from "../utils/Auth";
+import * as auth from "../utils/auth";
 
-const Register = ({onRegister}) => {
+const Register = ({ onRegister }) => {
   const [newUserData, setNewUserData] = useState({
     email: "",
     password: "",
@@ -23,6 +23,7 @@ const Register = ({onRegister}) => {
       .then((res) => {
         onRegister(res);
       })
+      .catch((err) => console.log(err))
       .finally(() => {
         setNewUserData({
           email: "",

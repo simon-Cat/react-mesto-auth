@@ -4,8 +4,8 @@ import Main from "./Main";
 import Footer from "./Footer";
 import PopupWithForm from "./PopupWithForm";
 import ImagePopup from "./ImagePopup";
-import api from "../utils/Api";
-import * as auth from "../utils/Auth";
+import api from "../utils/api";
+import * as auth from "../utils/auth";
 import CurrentUserContext from "../contexts/CurrentUserContext";
 import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
@@ -14,12 +14,7 @@ import Login from "./Login";
 import Register from "./Register";
 import ProtectedRoute from "./ProtectedRoute";
 import InfoTooltip from "./InfoTooltip";
-import {
-  Routes,
-  Route,
-  Navigate,
-  useLocation,
-} from "react-router-dom";
+import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 
 const App = () => {
   // states
@@ -44,36 +39,41 @@ const App = () => {
 
   const onSignOut = () => {
     setIsLoggedIn(false);
-    localStorage.removeItem('token');
-  }
+    localStorage.removeItem("token");
+  };
 
   const onRegister = (res) => {
     const typeOfToolTipPopup = res.error ? true : false;
     setStatusRegistration(typeOfToolTipPopup);
     setIsInfoTooltipPopupOpen(true);
-  }
+  };
 
   // effect
   useEffect(() => {
-    Promise.all([api.getUserInfo(), api.getInitialCards()])
-      .then(([user, cards]) => {
-        setCurrentUser((prevState) => {
-          return { ...prevState, ...user };
+    if (isLoggedIn) {
+      Promise.all([api.getUserInfo(), api.getInitialCards()])
+        .then(([user, cards]) => {
+          setCurrentUser((prevState) => {
+            return { ...prevState, ...user };
+          });
+          setCards(cards);
+        })
+        .catch((error) => {
+          console.log(`Ошибка - ${error}`);
         });
-        setCards(cards);
-      })
-      .catch((error) => {
-        console.log(`Ошибка - ${error}`);
-      });
-  }, []);
+    } else return;
+  }, [isLoggedIn]);
 
   useEffect(() => {
     if (localStorage.getItem("token")) {
       const jwt = localStorage.getItem("token");
-      auth.getContent(jwt).then((res) => {
-        setUserEmail(res.data.email);
-        setIsLoggedIn(true);
-      });
+      auth
+        .getContent(jwt)
+        .then((res) => {
+          setUserEmail(res.data.email);
+          setIsLoggedIn(true);
+        })
+        .catch((err) => console.log(err));
     }
   }, []);
 
@@ -190,10 +190,7 @@ const App = () => {
           onSignOut={onSignOut}
         />
         <Routes>
-          <Route
-            path="*"
-            element={<Navigate to="/" replace />}
-          />
+          <Route path="*" element={<Navigate to="/" replace />} />
           <Route
             path="/"
             element={
@@ -210,14 +207,27 @@ const App = () => {
               />
             }
           />
-          <Route path="/sign-up" element={<Register onRegister={onRegister} />} />
+          <Route
+            path="/sign-up"
+            element={<Register onRegister={onRegister} />}
+          />
           <Route
             path="/sign-in"
-            element={!isLoggedIn ? <Login onLogin={onLogin} /> : <Navigate to="/" replace={true} />}
+            element={
+              !isLoggedIn ? (
+                <Login onLogin={onLogin} />
+              ) : (
+                <Navigate to="/" replace={true} />
+              )
+            }
           />
         </Routes>
         <Footer />
-        <InfoTooltip onClose={closeAllPopups} isOpen={isInfoTooltipPopupOpen} popupType={statusRegistration} />
+        <InfoTooltip
+          onClose={closeAllPopups}
+          isOpen={isInfoTooltipPopupOpen}
+          popupType={statusRegistration}
+        />
         <EditAvatarPopup
           isOpen={isEditAvatarPopupOpen}
           onClose={closeAllPopups}

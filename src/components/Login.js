@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Form from "./Form";
-import * as auth from "../utils/Auth";
+import * as auth from "../utils/auth";
 import { useNavigate } from "react-router-dom";
 
 const Login = ({ onLogin }) => {
