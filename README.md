@@ -15,12 +15,15 @@
 - добавление и удаления лайка под карточкой места;
 - регистрация и авторизаци пользователя.
 
-## Какие технологии использовались?
+## Стек
 
-Проект переписан с помощью библиотеки React.
-Соблюдался компонентных подход, в качестве компонентов использовались функциональные и классовые компоненты.
-В проекте использовались хуки: useState, useEffect, useContext, useRef.
-В проекте используется библиотека React Router. 
+<div>
+  <img src="https://github.com/devicons/devicon/blob/master/icons/html5/html5-original-wordmark.svg" title="HTML 5" alt="HTML 5" width="40" height="40"/>&nbsp;
+  <img src="https://github.com/devicons/devicon/blob/master/icons/css3/css3-original.svg" title="CSS 3" alt="CSS 3" width="40" height="40"/>&nbsp;
+  <img src="https://raw.githubusercontent.com/devicons/devicon/55609aa5bd817ff167afce0d965585c92040787a/icons/javascript/javascript-original.svg" title="JavaScript" alt="JavaScript" width="40" height="40"/>&nbsp;
+  <img src="https://raw.githubusercontent.com/devicons/devicon/55609aa5bd817ff167afce0d965585c92040787a/icons/react/react-original.svg" title="React" alt="React" width="40" height="40"/>&nbsp;
+  <img src="https://raw.githubusercontent.com/devicons/devicon/55609aa5bd817ff167afce0d965585c92040787a/icons/npm/npm-original-wordmark.svg" title="Npm" alt="Npm" width="40" height="40"/>&nbsp;
+</div>
 
 ## Запуск проекта
 
